@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Command, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -86,6 +87,7 @@ export const Navbar = () => {
               </Link>
             )
           ))}
+          <ModeToggle />
         </div>
 
         {/* Mobile Navigation */}
