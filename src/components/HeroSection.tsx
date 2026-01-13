@@ -16,21 +16,22 @@ export const HeroSection = () => {
 
     if (isTyping) {
       if (displayText.length < snippet.length) {
+        // Optimasi: Gunakan requestAnimationFrame untuk animasi lebih smooth di low-end
         const timeout = setTimeout(() => {
           setDisplayText(snippet.slice(0, displayText.length + 1));
-        }, 50);
+        }, 50); // Speed typing
         return () => clearTimeout(timeout);
       } else {
         const timeout = setTimeout(() => {
           setIsTyping(false);
-        }, 2000);
+        }, 2000); // Pause sebelum hapus
         return () => clearTimeout(timeout);
       }
     } else {
       if (displayText.length > 0) {
         const timeout = setTimeout(() => {
           setDisplayText(displayText.slice(0, -1));
-        }, 30);
+        }, 30); // Speed deleting
         return () => clearTimeout(timeout);
       } else {
         setCurrentSnippet((prev) => (prev + 1) % codeSnippets.length);
@@ -42,7 +43,7 @@ export const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center pt-16"
+      className="min-h-screen flex items-center justify-center pt-16 pb-12 overflow-x-hidden"
     >
       <div className="container mx-auto px-4 md:px-6 text-center">
         <motion.div
@@ -73,11 +74,20 @@ export const HeroSection = () => {
             {profile.shortSummary}
           </p>
 
-          {/* Typewriter Effect */}
-          <div className="glass-card inline-block px-6 py-3 font-mono text-sm md:text-base">
-            <span className="text-muted-foreground">$ </span>
-            <span className="text-primary">{displayText}</span>
-            <span className="typewriter-cursor text-secondary">|</span>
+          {/* Typewriter Effect Container */}
+          {/* PERBAIKAN DISINI: */}
+          <div className="flex justify-center w-full"> 
+            <div className="glass-card relative flex items-center justify-center 
+              w-full max-w-[90vw] sm:max-w-md md:max-w-lg 
+              min-h-[80px] md:min-h-[60px] 
+              px-6 py-4 rounded-xl border border-white/10"
+            >
+              <div className="font-mono text-sm md:text-base text-left break-all sm:break-words whitespace-pre-wrap leading-relaxed w-full">
+                <span className="text-muted-foreground select-none mr-2">$</span>
+                <span className="text-primary">{displayText}</span>
+                <span className="animate-pulse text-secondary font-bold">|</span>
+              </div>
+            </div>
           </div>
 
           {/* CTA Buttons */}
@@ -89,7 +99,7 @@ export const HeroSection = () => {
           >
             <Button
               size="lg"
-              className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-8"
+              className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-8 w-full sm:w-auto"
               asChild
             >
               <Link to="/projects">
@@ -97,13 +107,13 @@ export const HeroSection = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
+            
             <Button
               size="lg"
               variant="outline"
-              className="gap-2 border-border hover:border-primary/50 text-foreground"
-              asChild // Tambahkan ini agar button merender elemen <a> di dalamnya
+              className="gap-2 border-border hover:border-primary/50 text-foreground w-full sm:w-auto"
+              asChild
             >
-              {/* Bungkus dengan tag <a> */}
               <a
                 href={profile.cvLink}
                 download="CV_Septian_Adhitya_Nugroho.pdf"
